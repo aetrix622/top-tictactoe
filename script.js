@@ -42,10 +42,20 @@ const ToeGame = (function() {
         const getName = () => name;
         const getLetter = () => letter;
         const getRecord = () => ({wins, losses});
+        const setName = (newName) => {
+            name = newName;
+            console.log(`New Name Set: ${name}`);
+            return name;
+        }
+        const setLetter = (newLetter) => {
+            letter = newLetter;
+            console.log(`New letter set for ${name}: ${letter}`);
+            return letter;
+        }
         const win = () => {return ++wins;};
         const lose = () => {return ++losses;};
 
-        return {getName, getLetter, getRecord, win, lose};
+        return {setName, getName, setLetter, getLetter, getRecord, win, lose};
     }
 
     function Square() {
