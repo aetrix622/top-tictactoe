@@ -35,4 +35,16 @@ const ToeGame = (function() {
         return {getBoard, updateBoard, resetBoard};
     })(Square());
 
+    function Player(name = "Default Player", letter = "X") {
+        let wins = 0;
+        let losses = 0;
+
+        const getName = () => name;
+        const getLetter = () => letter;
+        const getRecord = () => ({wins, losses});
+        const win = () => {return ++wins;};
+        const lose = () => {return ++losses;};
+
+        return {getName, getLetter, getRecord, win, lose};
+    }
 })();
