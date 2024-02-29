@@ -50,17 +50,13 @@ const ToeGame = (function() {
 
     function Square() {
         let value = null;
-
         const reset = () => {
             value = null;
         }
-
         const getValue = () => value;
-
         const setValue = (newValue) => {
             value = newValue;
         }
-        
         return {setValue, getValue, reset};
     }
 
