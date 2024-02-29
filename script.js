@@ -47,6 +47,7 @@ const ToeGame = (function() {
 
         return {getName, getLetter, getRecord, win, lose};
     }
+
     function Square() {
         let value = null;
 
@@ -62,4 +63,9 @@ const ToeGame = (function() {
         
         return {setValue, getValue, reset};
     }
+
+    return {GameBoard, Player};
+
+
+
 })();
