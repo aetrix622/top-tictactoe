@@ -13,6 +13,18 @@ const ToeGame = (function() {
             board.push(Square());
         }
 
+        function loadDebugBoard() {
+            const debugBoard = [
+                "X", "O", "O",
+                "O", "X", "X",
+                "X", "O", "O"
+            ];
+
+            for (let i = 0; i < board.length; i++) {
+                board[i].setValue(debugBoard[i]);
+            }
+        }
+
         const getBoard = () => board; // returns the entire board
 
         // return the entire board with letters mapped to the squares
@@ -53,7 +65,7 @@ const ToeGame = (function() {
             }
         };
 
-        return {getBoard, updateBoard, resetBoard, getLetters, printToConsole};
+        return {getBoard, updateBoard, resetBoard, getLetters, printToConsole, loadDebugBoard};
     })();
 
     function Player(name = "Default Player", letter = "X") {
