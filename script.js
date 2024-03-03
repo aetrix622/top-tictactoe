@@ -1,4 +1,7 @@
 const ToeGame = (function() {
+    // Player variables
+    let p1, p2;
+    
     const GameBoard = (function() {
         // create an array for the gameboard. For each square,
         // add a square object. The board will be indexed as follows:
@@ -88,8 +91,70 @@ const ToeGame = (function() {
         return {setValue, getValue, reset};
     }
 
-    return {GameBoard, Player};
+    // adds player names and assigns letters
+    const init = (function() {
+        p1 = Player(prompt("Player 1, what is your name?"), "X");
+        console.log(`Hello, ${p1.getName()}. You are letter ${p1.getLetter()}.`);
+        p2 = Player(prompt("Player 2 [O], what is your name?"), "O");
+        console.log(`Hello, ${p2.getName()}. You are letter ${p2.getLetter()}.`);
+    })();
 
+    function newGame() {
+        let currentPlayer;
+        let winner = false;
+        
+        GameBoard.resetBoard();
+        
+        // randomly pick a player to go first
+        if (Math.random() < 0.5) {
+            currentPlayer = p1;
+        } else {
+            currentPlayer = p2;
+        }
+        console.log(`${currentPlayer.getName()} will go first!`);
 
+        while (!winner) {
+            // do player move
+            playerTurn();
 
+            // check for win condition
+
+            // set winner true if needed
+
+            // next player please
+            nextPlayer();
+        }
+
+        // end game results
+
+        function nextPlayer() {
+            if (currentPlayer == p1) {
+                currentPlayer = p2;
+            } else {
+                currentPlayer = p1;
+            }
+        }
+
+        function playerTurn() {
+            // do player move
+            console.table(GameBoard.printToConsole());
+            let selectionValid = false;
+            do {
+                let playerChoice = prompt(`${currentPlayer.getName()}'s Turn:\nPlease Enter the number of an open square:`);
+                
+                // use a RegEx to make sure the input is in the form of "row , col"
+                const re = new RegExp("^[0-8]$");
+                if (re.test(playerChoice)) {
+                    // updateBoard() returns true when the move is valid
+                    if (GameBoard.updateBoard(playerChoice, currentPlayer.getLetter())) {
+                        selectionValid = true;
+                    } else {
+                        console.log("Invalid input. Please try again.");
+                    }
+                }
+            } while (!selectionValid);
+        }
+    }
+
+    return {newGame,};
 })();
