@@ -1,39 +1,57 @@
 const ToeGame = (function() {
-    
-    const GameBoard = (function(cellContent) {
-        // create a 2D array for the gameboard. For each square,
-        // add a cell object. 
-        const rows = 3;
-        const cols = 3;
+    const GameBoard = (function() {
+        // create an array for the gameboard. For each square,
+        // add a square object. The board will be indexed as follows:
+        // 1 2 3
+        // 4 5 6
+        // 7 8 9
         const board = [];
-        for (let i = 0; i < rows; i++) {
-            board[i] = [];
-            for (let j = 0; j < cols; j++) {
-                board[i].push(cellContent);
-            }
+        for (let i = 0; i < 9; i++) {
+            board.push(Square());
         }
 
         const getBoard = () => board; // returns the entire board
 
-        const updateBoard = (row, col, letter) => {
+        // return the entire board with letters mapped to the squares
+        const getLetters = () => {
+            const letters = board.map(i => {
+                let letter = i.getValue();
+                if (!!letter) {
+                    return letter;
+                } else {
+                    return `${board.indexOf(i)}`;
+                }
+            });
+            return letters;
+        };
+
+        const printToConsole = function(a = getLetters()) {
+            if (a.length === 9) {
+                console.log(`${a[0]}|${a[1]}|${a[2]}`);
+                console.log("-----");
+                console.log(`${a[3]}|${a[4]}|${a[5]}`);
+                console.log("-----");
+                console.log(`${a[6]}|${a[7]}|${a[8]}`);
+            } else console.log("printToConsole() error: bad input");
+        }
+
+        const updateBoard = (index, letter) => {
             // only update when the square is blank
             // returns true if successful
-            if (!board[row][col].getValue) {
-                board[row][col].value = letter;
+            if (!board[index].getValue()) {
+                board[index].setValue(letter);
                 return true;
             } else return false;
         };
 
         const resetBoard = () => {
             for (let i of board) {
-                for (let j of i) {
-                    j.reset();
-                }
+                i.reset();
             }
-        }
+        };
 
-        return {getBoard, updateBoard, resetBoard};
-    })(Square());
+        return {getBoard, updateBoard, resetBoard, getLetters, printToConsole};
+    })();
 
     function Player(name = "Default Player", letter = "X") {
         let wins = 0;
