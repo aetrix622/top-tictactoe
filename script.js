@@ -166,7 +166,37 @@ const ToeGame = (function() {
                 }
             } while (!selectionValid);
         }
+    function checkForWin() {
+        // board: 
+        // 0 1 2
+        // 3 4 5
+        // 6 7 8
+        const winPatterns = [
+            // horizontal wins
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            // verticaL wins
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8],
+            // diagonal wins
+            [0, 4, 8],
+            [2, 4, 6],
+        ];
+        const board = GameBoard.getLetters();
+        // get the board values associated with each pattern and win if they are equal.
+        for (let pattern of winPatterns) {
+            const v1 = board[pattern[0]];
+            const v2 = board[pattern[1]];
+            const v3 = board[pattern[2]];
+            if (v1 === v2 && v1 === v3) {
+                // win detected!
+                return true;
+            }
+        }
+        // all patterns failed check
+        return false;
     }
 
-    return {newGame,};
 })();
