@@ -130,12 +130,16 @@ const ToeGame = (function() {
             playerTurn();
 
             // check for win condition
-
             // set winner true if needed
-
+            if (checkForWin()){
+                winner = currentPlayer;
+            }
             // next player please
             nextPlayer();
         }
+
+        // if code execution gets this far, a winner has been found
+        gameOver();
 
         // end game results
 
@@ -166,6 +170,7 @@ const ToeGame = (function() {
                 }
             } while (!selectionValid);
         }
+
         function gameOver() {
             alert(`${winner.getName()} WINS!`);
             let response = prompt("Play Again?");
@@ -174,6 +179,7 @@ const ToeGame = (function() {
             }
         }
     }
+
     function checkForWin() {
         // board: 
         // 0 1 2
@@ -207,4 +213,7 @@ const ToeGame = (function() {
         return false;
     }
 
+
+
+    return {newGame, GameBoard};
 })();
