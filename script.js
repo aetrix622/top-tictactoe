@@ -166,6 +166,14 @@ const ToeGame = (function() {
                 }
             } while (!selectionValid);
         }
+        function gameOver() {
+            alert(`${winner.getName()} WINS!`);
+            let response = prompt("Play Again?");
+            if (response.toUpperCase() === "Y") {
+                newGame();
+            }
+        }
+    }
     function checkForWin() {
         // board: 
         // 0 1 2
