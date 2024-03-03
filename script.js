@@ -114,6 +114,7 @@ const ToeGame = (function() {
     function newGame() {
         let currentPlayer;
         let winner = false;
+        let draw = false;
         
         GameBoard.resetBoard();
         
@@ -125,20 +126,20 @@ const ToeGame = (function() {
         }
         console.log(`${currentPlayer.getName()} will go first!`);
 
-        while (!winner) {
-            // do player move
+        // game loop
+        while (!winner && !draw) {
             playerTurn();
-
-            // check for win condition
-            // set winner true if needed
             if (checkForWin()){
                 winner = currentPlayer;
             }
-            // next player please
-            nextPlayer();
+            draw = noMoreMoves(); // returns true when the board is filled
+            if (!winner && !draw) {
+                nextPlayer();
+            }
         }
 
         // if code execution gets this far, a winner has been found
+        // or there is a draw
         gameOver();
 
         // end game results
@@ -172,13 +173,18 @@ const ToeGame = (function() {
         }
 
         function gameOver() {
-            alert(`${winner.getName()} WINS!`);
+            if (winner) {
+                alert(`${winner.getName()} WINS!`);
+            } else if (draw) {
+                alert("It's a DRAW!")
+            }
             let response = prompt("Play Again?");
             if (response.toUpperCase() === "Y") {
                 newGame();
             }
         }
     }
+                
 
     function checkForWin() {
         // board: 
@@ -213,6 +219,17 @@ const ToeGame = (function() {
         return false;
     }
 
+    // checks each square for a null value. When found, it returns false
+    // returns true when the board is full
+    function noMoreMoves() {
+        const board = GameBoard.getBoard();
+        for (let square of board) {
+            if (!square.getValue()) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 
     return {newGame, GameBoard};
