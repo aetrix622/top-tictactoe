@@ -5,9 +5,9 @@ const ToeGame = (function() {
     const GameBoard = (function() {
         // create an array for the gameboard. For each square,
         // add a square object. The board will be indexed as follows:
-        // 1 2 3
-        // 4 5 6
-        // 7 8 9
+        // 0 1 2
+        // 3 4 5
+        // 6 7 8
         const board = [];
         for (let i = 0; i < 9; i++) {
             board.push(Square());
