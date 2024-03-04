@@ -1,0 +1,62 @@
+:root {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: grey;
+    height: 100vh;
+}
+
+h1 {
+    font-size: 1.5em;
+}
+
+h2 {
+    font-size: 1.3em; 
+}
+
+#page-container {
+    width: 1000px;
+    margin: auto;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    > div {
+        background-color: white;
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    #header {
+
+    }
+
+    #content {
+        flex: 1;
+        display: flex;
+        gap: 20px;
+
+        .players {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+        }
+
+        .gameboard {
+            height: 400px;
+            width: 400px;
+            margin: auto;  
+            
+            display: grid;
+            grid-template-rows: repeat(3, 1fr);
+            grid-template-columns: repeat(3, 1fr);
+            
+        }
+    }
+
+
+}

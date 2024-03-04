@@ -104,12 +104,12 @@ const ToeGame = (function() {
     }
 
     // adds player names and assigns letters
-    const init = (function() {
+    const init = function() {
         p1 = Player(prompt("Player 1, what is your name?"), "X");
         console.log(`Hello, ${p1.getName()}. You are letter ${p1.getLetter()}.`);
         p2 = Player(prompt("Player 2 [O], what is your name?"), "O");
         console.log(`Hello, ${p2.getName()}. You are letter ${p2.getLetter()}.`);
-    })();
+    };
 
     function newGame() {
         let currentPlayer;
@@ -232,5 +232,5 @@ const ToeGame = (function() {
     }
 
 
-    return {newGame, GameBoard};
+    return {init, newGame, GameBoard};
 })();

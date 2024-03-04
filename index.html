@@ -4,10 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project: Tic Tac Toe</title>
+    <link rel="stylesheet" href="reset.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Project: Tic Tac Toe</h1>
+    <div id="page-container">
+        <div id="header">
+            <h1>Project: Tic Tac Toe</h1>
+        </div>
+        <div id="content">
+            <div class="players">
+                <div class="player1">
+                    <div class="letter">X</div>
+                    <div class="playername">Player 1</div>
+                    <button class="editname">Edit</button>
+                    <div class="record">
+                        <div class="wins">Wins: 0</div>
+                        <div class="losses">Losses: 0</div>
+                        <div class="ties">Ties: 0</div>
+                    </div>
+                </div>
+                <div class="player2">
+                    <div class="letter">O</div>
+                    <div class="playername">Player 2</div>
+                    <button class="editname">Edit</button>
+                    <div class="record">
+                        <div class="wins">Wins: 0</div>
+                        <div class="losses">Losses: 0</div>
+                        <div class="ties">Ties: 0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="gameboard">
+                <div class="cell">0</div>
+                <div class="cell">1</div>
+                <div class="cell">2</div>
+                <div class="cell">3</div>
+                <div class="cell">4</div>
+                <div class="cell">5</div>
+                <div class="cell">6</div>
+                <div class="cell">7</div>
+                <div class="cell">8</div>
+            </div>
+        </div>
+        <div id="footer">Tic Tac Toe - &copy;2024 Joe Rochinski</div>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
