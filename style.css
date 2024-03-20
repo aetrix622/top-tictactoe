@@ -1,14 +1,25 @@
 :root {
+    --color1: rgb(61, 78, 151);
+    --bglightblue: rgb(64, 153, 219);
+    --bgdarkblue: rgb(31, 73, 115);
+    --bgoffwhite: rgb(227, 227, 229);
+
     box-sizing: border-box;
 }
 
 body {
     background-color: grey;
+    background-image: url(res/bg.jpg);
+    background-size: cover;
+    background-repeat: repeat;
     height: 100vh;
+
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
-    font-size: 1.5em;
+    font-size: 2em;
+    font-weight: 800;
 }
 
 h2 {
@@ -25,9 +36,11 @@ h2 {
     gap: 20px;
 
     > div {
-        background-color: white;
+        background-color: rgba(255, 255, 255, .75);
+        box-shadow: 2px 2px 10px black;
         border-radius: 20px;
         padding: 20px;
+        backdrop-filter: blur(15px);
     }
 
     #header {
@@ -36,7 +49,8 @@ h2 {
 
     #content {
         flex: 1;
-        display: flex;
+        display: grid;
+        grid-template-columns: 1fr max-content;
         gap: 20px;
 
         .players {
@@ -44,19 +58,106 @@ h2 {
             flex-direction: column;
             gap: 20px;
 
+            > button {
+                padding: .4em;
+                background-color: var(--bgoffwhite);
+                border: 1px solid black;
+                border-radius: 5px;
+            }
+
+            > * {
+                box-shadow: 2px 2px 5px #555;
+            }
+
+            > div {
+                display: grid;
+                grid-template-columns: auto 1fr;
+                grid-template-rows: repeat(4, 1fr);
+                gap: 5px;
+
+                background-color: white;
+                border: 1px solid;
+                padding: 10px;
+                border-radius: 5px;
+
+                .letter {
+                    grid-row: 1 / -1;
+                    grid-column: 1 / 2;
+                    aspect-ratio: 1 / 1;
+                    height: 150px;  
+
+                    font-size: 4em;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-weight: 800;
+
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                .playername {
+                    font-size: 1.1em;
+                    font-weight: 600;
+                }
+                
+                .playername,
+                .wins,
+                .losses,
+                .ties {
+                    justify-content: space-between;
+                    display: flex;
+                    align-items: center;
+                }
+            }
+
+            .player1 .letter {
+                background-color: var(--bglightblue);
+            }
+            
+            .player2 .letter {
+                background-color: var(--bgdarkblue);
+                color: white;
+            }
         }
 
         .gameboard {
-            height: 400px;
-            width: 400px;
-            margin: auto;  
+            height: 500px;
+            width: 500px;
+            margin: auto; 
+            border: 5px double var(--bgdarkblue); 
+            border-radius: 14px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px #555;
+
+            background-color: white;
             
             display: grid;
             grid-template-rows: repeat(3, 1fr);
             grid-template-columns: repeat(3, 1fr);
             
+            .row1,
+            .row2 {
+                border-bottom: 4px solid var(--bgdarkblue);
+            }
+
+            .col1,
+            .col2 {
+                border-right: 4px solid var(--bgdarkblue);
+            }
+
+            > div {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 8em;
+                font-weight: 600;
+            }
         }
     }
+}
 
-
+#footer {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }

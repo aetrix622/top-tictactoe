@@ -14,40 +14,54 @@
         </div>
         <div id="content">
             <div class="players">
+                <button>New Game</button>
                 <div class="player1">
                     <div class="letter">X</div>
-                    <div class="playername">Player 1</div>
-                    <button class="editname">Edit</button>
-                    <div class="record">
-                        <div class="wins">Wins: 0</div>
-                        <div class="losses">Losses: 0</div>
-                        <div class="ties">Ties: 0</div>
+                    <div class="playername">
+                        Player 1
+                        <button class="editname" id="btnP1Edit">
+                            <img src="res/edit_FILL0_wght400_GRAD0_opsz24.svg" alt="Edit">
+                        </button>
                     </div>
+                    <div class="wins">Wins: 0</div>
+                    <div class="losses">Losses: 0</div>
+                    <div class="ties">Ties: 0</div>
                 </div>
                 <div class="player2">
                     <div class="letter">O</div>
-                    <div class="playername">Player 2</div>
-                    <button class="editname">Edit</button>
-                    <div class="record">
-                        <div class="wins">Wins: 0</div>
-                        <div class="losses">Losses: 0</div>
-                        <div class="ties">Ties: 0</div>
+                    <div class="playername">
+                        Player 2
+                        <button class="editname" id="btnP2Edit">
+                            <img src="res/edit_FILL0_wght400_GRAD0_opsz24.svg" alt="Edit">
+                        </button>
                     </div>
+                    <div class="wins">Wins: 0</div>
+                    <div class="losses">Losses: 0</div>
+                    <div class="ties">Ties: 0</div>
                 </div>
             </div>
             <div class="gameboard">
-                <div class="cell">0</div>
-                <div class="cell">1</div>
-                <div class="cell">2</div>
-                <div class="cell">3</div>
-                <div class="cell">4</div>
-                <div class="cell">5</div>
-                <div class="cell">6</div>
-                <div class="cell">7</div>
-                <div class="cell">8</div>
+                <div class="cell row1 col1">0</div>
+                <div class="cell row1 col2">1</div>
+                <div class="cell row1 col3">2</div>
+                <div class="cell row2 col1">3</div>
+                <div class="cell row2 col2">4</div>
+                <div class="cell row2 col3">5</div>
+                <div class="cell row3 col1">6</div>
+                <div class="cell row3 col2">7</div>
+                <div class="cell row3 col3">8</div>
             </div>
         </div>
-        <div id="footer">Tic Tac Toe - &copy;2024 Joe Rochinski</div>
+        <div id="footer">
+            <div class="footertext">
+                Tic Tac Toe - &copy;2024 Joe Rochinski
+            </div>
+            <div class="bgattr">
+                <a href="https://www.freepik.com/free-vector/blue-geometric-seamless-pattern-abstract-background-vector-illustration_34510129.htm#fromView=search&page=1&position=1&uuid=2c9b704a-3f2a-463b-95fd-c8932b32abd4">
+                    Background by flatart on Freepik
+                </a>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
