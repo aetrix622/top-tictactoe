@@ -231,6 +231,19 @@ const ToeGame = (function() {
         return true;
     }
 
+    
+    // display the gameboard contents to the DOM
+    function displayBoard() {
+        let cells = document.querySelectorAll(".cell");
+        const letters = GameBoard.getLetters();
+        for (let i = 0; i < 9; i++) {
+            if (letters[i] == "X" || letters[i] == "O") {
+                cells[i].textContent = letters[i];
+            } else cells[i].textContent = "";
+            console.log(`Cell ${i}: ${letters[i]} >> ${cells[i].textContent}`);
+        }
+    }
 
-    return {init, newGame, GameBoard};
+
+    return {init, newGame, displayBoard, GameBoard};
 })();
