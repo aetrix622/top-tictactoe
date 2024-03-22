@@ -1,6 +1,8 @@
 const ToeGame = (function() {
     // Player variables
-    let p1, p2;
+    let p1, p2, currentPlayer;
+    let winner = false;
+    let draw = false;
     
     const GameBoard = (function() {
         // create an array for the gameboard. For each square,
@@ -97,6 +99,8 @@ const ToeGame = (function() {
         if (domElement) {
             domElement.addEventListener("click", e => {
                 console.log("Clicked " + index);
+                doClick(currentPlayer, index);
+                displayBoard();
             });
         }
         let value = null;
@@ -112,13 +116,62 @@ const ToeGame = (function() {
 
     // adds player names and assigns letters
     const init = function() {
-        p1 = Player(prompt("Player 1, what is your name?"), "X");
+        p1 = Player("Player 1", "X");
         console.log(`Hello, ${p1.getName()}. You are letter ${p1.getLetter()}.`);
-        p2 = Player(prompt("Player 2 [O], what is your name?"), "O");
+        p2 = Player("Player 2", "O");
         console.log(`Hello, ${p2.getName()}. You are letter ${p2.getLetter()}.`);
+        currentPlayer = getRandomPlayer();
     };
 
     function newGame() {
+        winner = false;
+        draw = false;
+        GameBoard.resetBoard();
+        currentPlayer = getRandomPlayer();
+    }
+
+    function getRandomPlayer() {
+        // chooses and returns a player at random
+        let player;
+        if (Math.random() < 0.5) {
+            player = p1;
+        } else {
+            player = p2;
+        }
+        console.log(`getRandomPlayer(): ${player.getName()} was randomly chosen.`);
+        return player;
+    }
+
+    function doClick(player, squareIndex) {
+        let selectionValid = false;
+
+        if (!winner && !draw && GameBoard.updateBoard(squareIndex, player.getLetter())) {
+            if (checkForWin()){
+                winner = currentPlayer;
+            }
+            draw = noMoreMoves(); // returns true when the board is filled
+            if (!winner && !draw) {
+                nextPlayer();
+            }
+        }
+
+        if (winner === false && GameBoard.updateBoard(squareIndex, player.getLetter())) {
+            selectionValid = true;
+            if (checkForWin()) {
+
+            }
+        }
+    }
+
+    function nextPlayer() {
+        if (currentPlayer == p1) {
+            currentPlayer = p2;
+        } else {
+            currentPlayer = p1;
+        }
+    }
+
+    function newConsoleGame() {
         let currentPlayer;
         let winner = false;
         let draw = false;
@@ -126,12 +179,7 @@ const ToeGame = (function() {
         GameBoard.resetBoard();
         
         // randomly pick a player to go first
-        if (Math.random() < 0.5) {
-            currentPlayer = p1;
-        } else {
-            currentPlayer = p2;
-        }
-        console.log(`${currentPlayer.getName()} will go first!`);
+        currentPlayer = getRandomPlayer();
 
         // game loop
         while (!winner && !draw) {
@@ -150,14 +198,6 @@ const ToeGame = (function() {
         gameOver();
 
         // end game results
-
-        function nextPlayer() {
-            if (currentPlayer == p1) {
-                currentPlayer = p2;
-            } else {
-                currentPlayer = p1;
-            }
-        }
 
         function playerTurn() {
             // do player move
@@ -187,13 +227,14 @@ const ToeGame = (function() {
             }
             let response = prompt("Play Again?");
             if (response.toUpperCase() === "Y") {
-                newGame();
+                newConsoleGame();
             }
         }
     }
                 
 
     function checkForWin() {
+        // returns true when a win condition is detected
         // board: 
         // 0 1 2
         // 3 4 5
@@ -251,6 +292,10 @@ const ToeGame = (function() {
         }
     }
 
+    document.addEventListener("DOMContentLoaded", e => {
+        init();
+    });
 
-    return {init, newGame, displayBoard, GameBoard};
+
+    return {init, newGame: newConsoleGame, displayBoard, GameBoard};
 })();
