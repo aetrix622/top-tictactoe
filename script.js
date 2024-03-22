@@ -10,7 +10,7 @@ const ToeGame = (function() {
         // 6 7 8
         const board = [];
         for (let i = 0; i < 9; i++) {
-            board.push(Square());
+            board.push(Square(i));
         }
 
         function loadDebugBoard() {
@@ -91,7 +91,14 @@ const ToeGame = (function() {
         return {setName, getName, setLetter, getLetter, getRecord, win, lose};
     }
 
-    function Square() {
+    function Square(idx) {
+        const index = idx;
+        const domElement = document.querySelector(`.idx${index}`);
+        if (domElement) {
+            domElement.addEventListener("click", e => {
+                console.log("Clicked " + index);
+            });
+        }
         let value = null;
         const reset = () => {
             value = null;
