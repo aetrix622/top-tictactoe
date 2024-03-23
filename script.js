@@ -3,7 +3,11 @@ const ToeGame = (function() {
     let p1, p2, currentPlayer;
     let winner = false;
     let draw = false;
-    
+    let message = document.getElementById("messagetext");
+    let btnNew = document.getElementById("newgame");
+    let btnP1Edit = document.getElementById("btnP1Edit");
+    let btnP2Edit = document.getElementById("btnP2Edit");
+   
     const GameBoard = (function() {
         // create an array for the gameboard. For each square,
         // add a square object. The board will be indexed as follows:
@@ -70,9 +74,10 @@ const ToeGame = (function() {
         return {getBoard, updateBoard, resetBoard, getLetters, printToConsole, loadDebugBoard};
     })();
 
-    function Player(name = "Default Player", letter = "X") {
+    function Player(n = "Default Player", letter = "X") {
         let wins = 0;
         let losses = 0;
+        let name = n;
 
         const getName = () => name;
         const getLetter = () => letter;
@@ -99,7 +104,7 @@ const ToeGame = (function() {
         if (domElement) {
             domElement.addEventListener("click", e => {
                 console.log("Clicked " + index);
-                doClick(currentPlayer, index);
+                clickSquare(currentPlayer, index);
                 updateBoardDisplay();
             });
         }
@@ -130,6 +135,7 @@ const ToeGame = (function() {
         updateBoardDisplay();
         currentPlayer = getRandomPlayer();
         updatePlayerDisplay();
+        message.textContent = `New Game! ${currentPlayer.getName()} goes first!`;
     }
 
     function updatePlayerDisplay() {
@@ -176,9 +182,7 @@ const ToeGame = (function() {
         return player;
     }
 
-    function doClick(player, squareIndex) {
-        let selectionValid = false;
-
+    function clickSquare(player, squareIndex) {
         if (!winner && !draw && GameBoard.updateBoard(squareIndex, player.getLetter())) {
             if (checkForWin()){
                 winner = currentPlayer;
@@ -317,13 +321,32 @@ const ToeGame = (function() {
             if (letters[i] == "X" || letters[i] == "O") {
                 cells[i].textContent = letters[i];
             } else cells[i].textContent = "";
-            console.log(`Cell ${i}: ${letters[i]} >> ${cells[i].textContent}`);
+            // FOR DEBUG
+            // console.log(`Cell ${i}: ${letters[i]} >> ${cells[i].textContent}`);
         }
     }
 
-    document.addEventListener("DOMContentLoaded", e => {
-        init();
-    });
+    init();
+
+    btnNew.addEventListener("click", newGame);
+
+    btnP1Edit.addEventListener("click", renamePlayer);
+    btnP1Edit.player = 1;
+    btnP2Edit.addEventListener("click", renamePlayer);
+    btnP2Edit.player = 2;
+
+    function renamePlayer(e) {
+        const player = e.currentTarget.player;
+        if (player === 1) {
+            p1.setName(prompt(`Enter a new name for Player 1 [${p1.getLetter()}]`));
+        } else {
+            p2.setName(prompt(`Enter a new name for Player 1 [${p2.getLetter()}]`));
+        }
+        updatePlayerDisplay();
+    }
+
+    
+
 
 
     return {init, newGame: newConsoleGame, displayBoard: updateBoardDisplay, GameBoard};
