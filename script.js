@@ -186,11 +186,16 @@ const ToeGame = (function() {
         if (!winner && !draw && GameBoard.updateBoard(squareIndex, player.getLetter())) {
             if (checkForWin()){
                 winner = currentPlayer;
+                message.textContent = `3-in-a-row! ${currentPlayer.getName()} WINS!`;
                 updatePlayerDisplay();
             }
             draw = noMoreMoves(); // returns true when the board is filled
+            if (draw) {
+                message.textContent = "It's a DRAW!";
+            }
             if (!winner && !draw) {
                 nextPlayer();
+                message.textContent = `${currentPlayer.getName()}'s Turn`;
                 updatePlayerDisplay();
             }
         }
