@@ -135,12 +135,32 @@ const ToeGame = (function() {
     function updatePlayerDisplay() {
         const p1Div = document.querySelector(".player1");
         const p2Div = document.querySelector(".player2");
+        let currentDiv, otherDiv, otherPlayer;
+
+        // set up variables to correctly point at the proper player
         if (currentPlayer == p1) {
-            p1Div.classList.add("currentplayer");
-            p2Div.classList.remove("currentplayer");
+            currentDiv = p1Div;
+            otherDiv = p2Div;
+            otherPlayer = p2;
         } else {
-            p1Div.classList.remove("currentplayer");
-            p2Div.classList.add("currentplayer");
+            currentDiv = p2Div;
+            otherDiv = p1Div;
+            otherPlayer = p1;
+        }
+
+        // add the currentplayer class to the current player and remove it from the other player
+        currentDiv.classList.add("currentplayer");
+        otherDiv.classList.remove("currentplayer");
+
+        // add >> in front of the current player name and remove it from the other player
+        const currentName = currentDiv.querySelector(".nametext");
+        const otherName = otherDiv.querySelector(".nametext");
+        currentName.textContent = ">> " + currentPlayer.getName();
+        otherName.textContent = otherPlayer.getName();
+
+        if (winner) {
+            console.log("winner detected");
+            currentName.textContent = "👑 " + currentPlayer.getName();
         }
     }
 
@@ -162,18 +182,12 @@ const ToeGame = (function() {
         if (!winner && !draw && GameBoard.updateBoard(squareIndex, player.getLetter())) {
             if (checkForWin()){
                 winner = currentPlayer;
+                updatePlayerDisplay();
             }
             draw = noMoreMoves(); // returns true when the board is filled
             if (!winner && !draw) {
                 nextPlayer();
                 updatePlayerDisplay();
-            }
-        }
-
-        if (winner === false && GameBoard.updateBoard(squareIndex, player.getLetter())) {
-            selectionValid = true;
-            if (checkForWin()) {
-
             }
         }
     }
