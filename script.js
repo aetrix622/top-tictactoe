@@ -100,7 +100,7 @@ const ToeGame = (function() {
             domElement.addEventListener("click", e => {
                 console.log("Clicked " + index);
                 doClick(currentPlayer, index);
-                displayBoard();
+                updateBoardDisplay();
             });
         }
         let value = null;
@@ -120,14 +120,28 @@ const ToeGame = (function() {
         console.log(`Hello, ${p1.getName()}. You are letter ${p1.getLetter()}.`);
         p2 = Player("Player 2", "O");
         console.log(`Hello, ${p2.getName()}. You are letter ${p2.getLetter()}.`);
-        currentPlayer = getRandomPlayer();
+        newGame();
     };
 
     function newGame() {
         winner = false;
         draw = false;
         GameBoard.resetBoard();
+        updateBoardDisplay();
         currentPlayer = getRandomPlayer();
+        updatePlayerDisplay();
+    }
+
+    function updatePlayerDisplay() {
+        const p1Div = document.querySelector(".player1");
+        const p2Div = document.querySelector(".player2");
+        if (currentPlayer == p1) {
+            p1Div.classList.add("currentplayer");
+            p2Div.classList.remove("currentplayer");
+        } else {
+            p1Div.classList.remove("currentplayer");
+            p2Div.classList.add("currentplayer");
+        }
     }
 
     function getRandomPlayer() {
@@ -152,6 +166,7 @@ const ToeGame = (function() {
             draw = noMoreMoves(); // returns true when the board is filled
             if (!winner && !draw) {
                 nextPlayer();
+                updatePlayerDisplay();
             }
         }
 
@@ -281,7 +296,7 @@ const ToeGame = (function() {
 
     
     // display the gameboard contents to the DOM
-    function displayBoard() {
+    function updateBoardDisplay() {
         let cells = document.querySelectorAll(".cell");
         const letters = GameBoard.getLetters();
         for (let i = 0; i < 9; i++) {
@@ -297,5 +312,5 @@ const ToeGame = (function() {
     });
 
 
-    return {init, newGame: newConsoleGame, displayBoard, GameBoard};
+    return {init, newGame: newConsoleGame, displayBoard: updateBoardDisplay, GameBoard};
 })();
