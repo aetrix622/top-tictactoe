@@ -3,10 +3,16 @@ const ToeGame = (function() {
     let p1, p2, currentPlayer;
     let winner = false;
     let draw = false;
-    let message = document.getElementById("messagetext");
-    let btnNew = document.getElementById("newgame");
-    let btnP1Edit = document.getElementById("btnP1Edit");
-    let btnP2Edit = document.getElementById("btnP2Edit");
+    const message = document.getElementById("messagetext");
+    const btnNew = document.getElementById("newgame");
+    const btnP1Edit = document.getElementById("btnP1Edit");
+    const btnP2Edit = document.getElementById("btnP2Edit");
+    const p1Wins = document.querySelector(".player1 > .wins");
+    const p1Losses = document.querySelector(".player1 > .losses");
+    const p1Ties = document.querySelector(".player1 > .ties");
+    const p2Wins = document.querySelector(".player2 > .wins");
+    const p2Losses = document.querySelector(".player2 > .losses");
+    const p2Ties = document.querySelector(".player2 > .ties");
    
     const GameBoard = (function() {
         // create an array for the gameboard. For each square,
@@ -75,8 +81,11 @@ const ToeGame = (function() {
     })();
 
     function Player(n = "Default Player", letter = "X") {
-        let wins = 0;
-        let losses = 0;
+        let record = {
+            wins: 0,
+            losses: 0,
+            draws: 0,
+        }
         let name = n;
 
         const getName = () => name;
@@ -92,10 +101,11 @@ const ToeGame = (function() {
             console.log(`New letter set for ${name}: ${letter}`);
             return letter;
         }
-        const win = () => {return ++wins;};
-        const lose = () => {return ++losses;};
+        const win = () => {return ++record.wins;};
+        const lose = () => {return ++record.losses;};
+        const draw = () => {return ++record.draws;};
 
-        return {setName, getName, setLetter, getLetter, getRecord, win, lose};
+        return {record, setName, getName, setLetter, getLetter, getRecord, win, lose, draw};
     }
 
     function Square(idx) {
@@ -164,10 +174,13 @@ const ToeGame = (function() {
         currentName.textContent = ">> " + currentPlayer.getName();
         otherName.textContent = otherPlayer.getName();
 
+        // crown the winner
         if (winner) {
             console.log("winner detected");
             currentName.textContent = "👑 " + currentPlayer.getName();
         }
+
+        updateRecords();
     }
 
     function getRandomPlayer() {
@@ -186,12 +199,18 @@ const ToeGame = (function() {
         if (!winner && !draw && GameBoard.updateBoard(squareIndex, player.getLetter())) {
             if (checkForWin()){
                 winner = currentPlayer;
+                let otherPlayer = (currentPlayer === p1) ? p2 : p1;
+                currentPlayer.win();
+                otherPlayer.lose();
                 message.textContent = `3-in-a-row! ${currentPlayer.getName()} WINS!`;
                 updatePlayerDisplay();
             }
             draw = noMoreMoves(); // returns true when the board is filled
             if (draw) {
                 message.textContent = "It's a DRAW!";
+                p1.draw();
+                p2.draw();
+                updatePlayerDisplay();
             }
             if (!winner && !draw) {
                 nextPlayer();
@@ -331,15 +350,6 @@ const ToeGame = (function() {
         }
     }
 
-    init();
-
-    btnNew.addEventListener("click", newGame);
-
-    btnP1Edit.addEventListener("click", renamePlayer);
-    btnP1Edit.player = 1;
-    btnP2Edit.addEventListener("click", renamePlayer);
-    btnP2Edit.player = 2;
-
     function renamePlayer(e) {
         const player = e.currentTarget.player;
         if (player === 1) {
@@ -350,9 +360,23 @@ const ToeGame = (function() {
         updatePlayerDisplay();
     }
 
+    function updateRecords() {
+        p1Wins.textContent = `Wins: ${p1.record.wins}`;
+        p1Losses.textContent = `Losses: ${p1.record.losses}`;
+        p1Ties.textContent = `Ties: ${p1.record.draws}`;
+        p2Wins.textContent = `Wins: ${p2.record.wins}`;
+        p2Losses.textContent = `Losses: ${p2.record.losses}`;
+        p2Ties.textContent = `Ties: ${p2.record.draws}`;
+    }
+
+    init();
+
+    btnNew.addEventListener("click", newGame);
+
+    btnP1Edit.addEventListener("click", renamePlayer);
+    btnP1Edit.player = 1;
+    btnP2Edit.addEventListener("click", renamePlayer);
+    btnP2Edit.player = 2;
     
-
-
-
     return {init, newGame: newConsoleGame, displayBoard: updateBoardDisplay, GameBoard};
 })();
