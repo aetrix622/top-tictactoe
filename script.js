@@ -1,8 +1,10 @@
 const ToeGame = (function() {
     // Player variables
     let p1, p2, currentPlayer;
+    // Game State
     let winner = false;
     let draw = false;
+    // DOM Objects
     const message = document.getElementById("messagetext");
     const btnNew = document.getElementById("newgame");
     const btnP1Edit = document.getElementById("btnP1Edit");
@@ -25,18 +27,6 @@ const ToeGame = (function() {
             board.push(Square(i));
         }
 
-        function loadDebugBoard() {
-            const debugBoard = [
-                "X", "O", "O",
-                "O", "X", "X",
-                "X", "O", "O"
-            ];
-
-            for (let i = 0; i < board.length; i++) {
-                board[i].setValue(debugBoard[i]);
-            }
-        }
-
         const getBoard = () => board; // returns the entire board
 
         // return the entire board with letters mapped to the squares
@@ -51,16 +41,6 @@ const ToeGame = (function() {
             });
             return letters;
         };
-
-        const printToConsole = function(a = getLetters()) {
-            if (a.length === 9) {
-                console.log(`${a[0]}|${a[1]}|${a[2]}`);
-                console.log("-----");
-                console.log(`${a[3]}|${a[4]}|${a[5]}`);
-                console.log("-----");
-                console.log(`${a[6]}|${a[7]}|${a[8]}`);
-            } else console.log("printToConsole() error: bad input");
-        }
 
         const updateBoard = (index, letter) => {
             // only update when the square is blank
@@ -77,7 +57,7 @@ const ToeGame = (function() {
             }
         };
 
-        return {getBoard, updateBoard, resetBoard, getLetters, printToConsole, loadDebugBoard};
+        return {getBoard, updateBoard, resetBoard, getLetters};
     })();
 
     function Player(n = "Default Player", letter = "X") {
@@ -90,7 +70,6 @@ const ToeGame = (function() {
 
         const getName = () => name;
         const getLetter = () => letter;
-        const getRecord = () => ({wins, losses});
         const setName = (newName) => {
             name = newName;
             console.log(`New Name Set: ${name}`);
@@ -105,7 +84,7 @@ const ToeGame = (function() {
         const lose = () => {return ++record.losses;};
         const draw = () => {return ++record.draws;};
 
-        return {record, setName, getName, setLetter, getLetter, getRecord, win, lose, draw};
+        return {record, setName, getName, setLetter, getLetter, win, lose, draw};
     }
 
     function Square(idx) {
@@ -228,69 +207,7 @@ const ToeGame = (function() {
             currentPlayer = p1;
         }
     }
-
-    function newConsoleGame() {
-        let currentPlayer;
-        let winner = false;
-        let draw = false;
-        
-        GameBoard.resetBoard();
-        
-        // randomly pick a player to go first
-        currentPlayer = getRandomPlayer();
-
-        // game loop
-        while (!winner && !draw) {
-            playerTurn();
-            if (checkForWin()){
-                winner = currentPlayer;
-            }
-            draw = noMoreMoves(); // returns true when the board is filled
-            if (!winner && !draw) {
-                nextPlayer();
-            }
-        }
-
-        // if code execution gets this far, a winner has been found
-        // or there is a draw
-        gameOver();
-
-        // end game results
-
-        function playerTurn() {
-            // do player move
-            console.table(GameBoard.printToConsole());
-            let selectionValid = false;
-            do {
-                let playerChoice = prompt(`${currentPlayer.getName()}'s Turn:\nPlease Enter the number of an open square:`);
-                
-                // use a RegEx to make sure the input is in the form of "row , col"
-                const re = new RegExp("^[0-8]$");
-                if (re.test(playerChoice)) {
-                    // updateBoard() returns true when the move is valid
-                    if (GameBoard.updateBoard(playerChoice, currentPlayer.getLetter())) {
-                        selectionValid = true;
-                    } else {
-                        console.log("Invalid input. Please try again.");
-                    }
-                }
-            } while (!selectionValid);
-        }
-
-        function gameOver() {
-            if (winner) {
-                alert(`${winner.getName()} WINS!`);
-            } else if (draw) {
-                alert("It's a DRAW!")
-            }
-            let response = prompt("Play Again?");
-            if (response.toUpperCase() === "Y") {
-                newConsoleGame();
-            }
-        }
-    }
-                
-
+            
     function checkForWin() {
         // returns true when a win condition is detected
         // board: 
@@ -356,7 +273,7 @@ const ToeGame = (function() {
         if (player === 1) {
             p1.setName(prompt(`Enter a new name for Player 1 [${p1.getLetter()}]`));
         } else {
-            p2.setName(prompt(`Enter a new name for Player 1 [${p2.getLetter()}]`));
+            p2.setName(prompt(`Enter a new name for Player 2 [${p2.getLetter()}]`));
         }
         updatePlayerDisplay();
     }
@@ -379,5 +296,4 @@ const ToeGame = (function() {
     btnP2Edit.addEventListener("click", renamePlayer);
     btnP2Edit.player = 2;
     
-    return {init, newGame: newConsoleGame, displayBoard: updateBoardDisplay, GameBoard};
 })();
