@@ -204,18 +204,19 @@ const ToeGame = (function() {
                 otherPlayer.lose();
                 message.textContent = `3-in-a-row! ${currentPlayer.getName()} WINS!`;
                 updatePlayerDisplay();
-            }
-            draw = noMoreMoves(); // returns true when the board is filled
-            if (draw) {
-                message.textContent = "It's a DRAW!";
-                p1.draw();
-                p2.draw();
-                updatePlayerDisplay();
+            } else {
+                draw = noMoreMoves(); // returns true when the board is filled
+                if (draw) {
+                    message.textContent = "It's a DRAW!";
+                    p1.draw();
+                    p2.draw();
+                    updatePlayerDisplay();
+                }
             }
             if (!winner && !draw) {
-                nextPlayer();
-                message.textContent = `${currentPlayer.getName()}'s Turn`;
-                updatePlayerDisplay();
+            nextPlayer();
+            message.textContent = `${currentPlayer.getName()}'s Turn`;
+            updatePlayerDisplay();
             }
         }
     }
